@@ -22,7 +22,7 @@ def test_post_applicants_route_invalid_format():
 
     response = client.post(url, json=100)
 
-    assert response.status_code == 400 # input was not a dictionary
+    assert response.status_code == 404 # Not found: age, absences, and health attributes
 
 
 def test_get_applicants_route_invalid_request():
