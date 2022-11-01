@@ -20,8 +20,22 @@ def test_post_applicants_route_invalid_format():
     client = app.test_client()
     url = '/applicants'
 
-    response = client.post(url)
-    assert response.status_code == 400
+    response = client.post(url, json={100})
+
+    assert response.status_code == 400 # input was not a dictionary
+
+def test_post_applicants_route_invalid_input():
+    app = Flask(__name__)
+    configure_routes(app)
+    client = app.test_client()
+    url = '/applicants'
+
+    response = client.post(url, json={
+        'age': 16, 'absences': 3
+    })
+
+    assert response.status_code == 400 # health was not defined
+
 
 def test_get_applicants_route_invalid_request():
     app = Flask(__name__)
@@ -30,19 +44,9 @@ def test_get_applicants_route_invalid_request():
     url = '/applicants'
 
     response = client.get(url)
-    assert response.status_code == 400
 
-def test_get_applicants_route():
-    app = Flask(__name__)
-    configure_routes(app)
-    client = app.test_client()
-    url = '/applicants'
+    assert response.status_code == 400 # nothing was posted
 
-    response = client.post(url)
-    assert response.status_code == 200
-
-    response = client.get(url)
-    assert response.status_code == 400
 
 def test_predict_route_invalid_request():
     app = Flask(__name__)
@@ -52,15 +56,24 @@ def test_predict_route_invalid_request():
 
     response = client.get(url)
 
-    assert response.status_code == 400
+    assert response.status_code == 400 # nothing was posted
     
-def test_predict_route():
+
+def test_applicants_and_predict_route():
     app = Flask(__name__)
     configure_routes(app)
     client = app.test_client()
-    url = '/predict'
 
-    response = client.get(url)
+    response = client.post('/applicants', json={
+        'age': 16, 'absences': 3, 'health': 95
+    })
+    assert response.status_code == 200
+
+    response = client.get('/applicants')
+    assert response.status_code == 200
+    assert response.get_data() == { 'age': 16, 'absences': 3, 'health': 95 }
+
+    response = client.get('/predict')
 
     assert response.status_code == 200
     assert response.get_data() == 1 or response.get_data() == 0
