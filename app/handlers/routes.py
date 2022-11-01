@@ -15,7 +15,6 @@ def configure_routes(app):
     def hello():
         return "try the predict route it is great!"
 
-
     @app.route('/predict')
     def predict():
         #use entries from the query string here but could also use json
