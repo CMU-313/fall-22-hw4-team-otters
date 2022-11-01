@@ -20,9 +20,21 @@ def test_post_applicants_route_invalid_format():
     client = app.test_client()
     url = '/applicants'
 
-    response = client.post(url, json={100})
+    response = client.post(url, json=100)
 
-    assert response.status_code == 400 # input was not a dictionary
+    assert response.status_code == 404 # Not found: age, absences, and health attributes
+
+
+def test_get_applicants_route_invalid_request():
+    app = Flask(__name__)
+    configure_routes(app)
+    client = app.test_client()
+    url = '/applicants'
+
+    response = client.get(url)
+
+    assert response.status_code == 404 # Not found: age, absences, and health attributes
+
 
 def test_post_applicants_route_invalid_input():
     app = Flask(__name__)
@@ -34,18 +46,7 @@ def test_post_applicants_route_invalid_input():
         'age': 16, 'absences': 3
     })
 
-    assert response.status_code == 400 # health was not defined
-
-
-def test_get_applicants_route_invalid_request():
-    app = Flask(__name__)
-    configure_routes(app)
-    client = app.test_client()
-    url = '/applicants'
-
-    response = client.get(url)
-
-    assert response.status_code == 400 # nothing was posted
+    assert response.status_code == 404 # Not found: health attribute
 
 
 def test_predict_route_invalid_request():
@@ -56,7 +57,7 @@ def test_predict_route_invalid_request():
 
     response = client.get(url)
 
-    assert response.status_code == 400 # nothing was posted
+    assert response.status_code == 500 # Internal server error: nothing was posted
     
 def test_applicants_and_predict_route():
     app = Flask(__name__)
