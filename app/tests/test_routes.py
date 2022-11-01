@@ -77,3 +77,25 @@ def test_applicants_and_predict_route():
 
     assert response.status_code == 200
     assert response.get_data() == 1 or response.get_data() == 0
+    
+def test_undefined_route():
+    app = Flask(__name__)
+    configure_routes(app)
+    client = app.test_client()
+    url = '/undefined'
+
+    response = client.get('/undefined')
+    assert response.status_code == 404
+    
+def test_post_undefined_route():
+    app = Flask(__name__)
+    configure_routes(app)
+    client = app.test_client()
+    url = '/undefined'
+
+    response = client.post(url, json={
+        'age': 16, 'absences': 3, 'health': 90
+    })
+
+    assert response.status_code == 404 # resource not found
+    
