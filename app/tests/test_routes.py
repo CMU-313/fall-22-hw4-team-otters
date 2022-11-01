@@ -57,9 +57,9 @@ def test_predict_route_invalid_request():
 
     response = client.get(url)
 
-    assert response.status_code == 500 # Internal server error: nothing was posted
+    assert response.status_code == 404 # Internal server error: nothing was posted
     
-def test_applicants_and_predict_route():
+def test_get_applicants_route():
     app = Flask(__name__)
     configure_routes(app)
     client = app.test_client()
@@ -68,11 +68,23 @@ def test_applicants_and_predict_route():
         'age': 16, 'absences': 3, 'health': 95
     })
     assert response.status_code == 200
-
-    response = client.get('/applicants')
-    assert response.status_code == 200
     assert response.get_data() == { 'age': 16, 'absences': 3, 'health': 95 }
 
+    
+def test_post_applicants_route():
+    app = Flask(__name__)
+    configure_routes(app)
+    client = app.test_client()
+    
+    response = client.get('/applicants')
+    assert response.status_code == 200
+    
+    
+def test_get_predict_route():
+    app = Flask(__name__)
+    configure_routes(app)
+    client = app.test_client()
+    
     response = client.get('/predict')
 
     assert response.status_code == 200
