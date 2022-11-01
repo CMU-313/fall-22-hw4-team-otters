@@ -16,7 +16,7 @@ paths:
       operationId: predictedScores
       responses:
         "200":
-          description: Accuracy of scores predicted
+          description: Accuracy of scores predicted (1 if correct and 0 if incorrect)
           content:
             application/json:
               schema:
@@ -68,9 +68,9 @@ components:
       type: object
       properties:
         accuracyScore:
-          type: number
+          type: integer
           format: accuracyScore
-          example: 0.5
+          example: 0
     Applicants:
       type: object
       properties:
@@ -79,4 +79,4 @@ components:
           items:
             type: string
             format: attribute
-            example: age
+            example: '["age","absences","health"]'
