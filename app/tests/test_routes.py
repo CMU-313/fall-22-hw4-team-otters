@@ -58,7 +58,6 @@ def test_predict_route_invalid_request():
 
     assert response.status_code == 400 # nothing was posted
     
-
 def test_applicants_and_predict_route():
     app = Flask(__name__)
     configure_routes(app)
