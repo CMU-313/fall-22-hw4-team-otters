@@ -1,3 +1,49 @@
+# Implementation: Feature Engineering on the ML Model
+
+The machine learning model used in this program is the RandomForest Tree model, and it is deployed through the SciKit Learn model. The goal of this implementation step is to increase the performance of the ML Model for predicting whether or not a student will be "qualified" based on his/her G3 (final) grade. A G3 score of 15 or above (the range is 0-20) means that the student is qualified. The model outputs a binary response that indicates whether or not the student is "qualified". 
+
+Below, the performance is quantified using the f1_score, which is the harmonic mean of precision and recall. This essentially measures the accuracy of the model.
+
+## Default Model
+
+The default RandomForest model has a **f1_score = 0.54293**. 
+
+The model achieves this f1_score by using the following features:
+- `age` (range from 15-22)
+- `health` (range from 1-5)
+- `absences` (range from 0-93)
+
+## New Model After Feature Selection and Engineering
+
+Team Otters wanted to significantly increase the f1_score of the new model, and added more useful features into the model. The team chose features that give insight to the student's access to resources and academic habits.
+
+The chosen features are:
+- `age` (range from 15-22)
+- `health` (range from 1-5)
+- `absences` (range from 0-93)
+- `higher` (whether student wants to pursue higher education - yes/no)
+- `paid` (whether student received extra paid classes - yes/no)
+- `failures` (number of past class failures - range from 1-4)
+- `dalc` (workday alcohol consumption - range from 1-5)
+- `internet` (whether student has access to internet - yes/no)
+- `studytime` (quantified thru range from 1-4)
+- `address` (rural (R) or urban (U))
+
+To successfully run the RandomForest model, the features `paid`, `higher`, `internet`, and `address` are transformed into 1/0 responses rather than the strings that they currently are.
+
+The engineered features are:
+- `paid_int` (yes = 1, no = 0)
+- `higher_int` (yes = 1, no = 0)
+- `internet_int` (yes = 1, no = 0)
+- `address_int` (Urban = 1, Rural = 0)
+
+When the ML Model is trained using the chosen and engineered features, the **f1_score = 0.92198**. This is significantly better than the default f1_score = 0.54293. 
+
+| x | Default Model | New Model |
+| --- | --- | --- |
+| f1_score | 0.54293  | 0.92198 |
+| # of features  | 3 | 10 |
+
 # HW4 Starter Code and Instructions
 
 Please consult the [homework assignment](https://cmu-313.github.io//assignments/hw4) for additional context and instructions for this code.
