@@ -39,10 +39,10 @@ The engineered features are:
 
 When the ML Model is trained using the chosen and engineered features, the **f1_score = 0.92198**. This is significantly better than the default f1_score = 0.54293. 
 
-| x | Default Model | New Model |
+|  | Default Model | New Model |
 | --- | --- | --- |
-| f1_score | 0.54293  | 0.92198 |
-| # of features  | 3 | 10 |
+| **f1_score** | 0.54293  | 0.92198 |
+| **# of features** | 3 | 10 |
 
 # HW4 Starter Code and Instructions
 
