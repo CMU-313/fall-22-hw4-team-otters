@@ -24,7 +24,8 @@ def test_get_applicants_route_request_without_post():
 
     assert response.status_code == 200
     # Should return default with all attribute values = 0
-    assert response.get_data() == b"Successfully added new applicant attributes: "
+    assert response.get_data() == b'{"Dalc":0,"absences":0,"address_int":0,"age":0,"failures":0,"health":0,"high' 
+    +  b'er_int":0,"internet_int":0,"paid_int":0,"studytime":0}\n'
 
 
 def test_post_applicants_route_invalid_format():
@@ -35,9 +36,7 @@ def test_post_applicants_route_invalid_format():
 
     response = client.post(url, json=100)
 
-    assert response.status_code == 400 # Not all attributes found
-    assert response.get_data() == b"Invalid input: dictionary should contain 'health', 'absences', 'age', 'failures', \
-                    'Dalc', 'internet_int', 'higher_int', 'paid_int', 'studytime', and 'address_int' attributes."
+    assert response.status_code == 500 # Internal server error: 100 is not iterable
 
 def test_post_applicants_route_invalid_input():
     app = Flask(__name__)

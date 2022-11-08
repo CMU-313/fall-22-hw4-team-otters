@@ -42,7 +42,7 @@ def configure_routes(app):
                 result['studytime'] = applicant['hestudytimealth']
                 result['address_int'] = applicant['address_int']
                 attributes.append(result)
-                return "Successfully added new applicant attributes: " + jsonify(attributes[-1]), 200
+                return jsonify(attributes[-1]), 200
             else:
                 return "Invalid input: dictionary should contain 'health', 'absences', 'age', 'failures', \
                     'Dalc', 'internet_int', 'higher_int', 'paid_int', 'studytime', and 'address_int' attributes.", 400
