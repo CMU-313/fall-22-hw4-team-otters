@@ -39,7 +39,7 @@ def configure_routes(app):
                 result['internet_int'] = applicant['internet_int']
                 result['higher_int'] = applicant['higher_int']
                 result['paid_int'] = applicant['paid_int']
-                result['studytime'] = applicant['hestudytimealth']
+                result['studytime'] = applicant['studytime']
                 result['address_int'] = applicant['address_int']
                 attributes.append(result)
                 return jsonify(attributes[-1]), 200
@@ -65,4 +65,4 @@ def configure_routes(app):
         })
         query = pd.get_dummies(query_df)
         prediction = clf.predict(query)
-        return jsonify(np.ndarray.item(prediction))
+        return jsonify(np.ndarray.item(prediction)), 200

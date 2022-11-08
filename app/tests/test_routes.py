@@ -62,22 +62,26 @@ def test_predict_route_without_post():
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.get_data() == 0
+    assert response.get_data() == b'0\n'
 
 
-def test_get_applicants_route():
+def test_post_and_get_applicants_route():
     app = Flask(__name__)
     configure_routes(app)
     client = app.test_client()
+    url = '/applicants'
 
     # when I post to /applicants, I should be able to get that data back
-    response = client.post('/applicants', json={
+    response = client.post(url, json={
         'age': 16, 'absences': 3, 'health': 95, 'failures': 0, 'Dalc': 0, 'internet_int': 1, 
         'higher_int': 1, 'paid_int': 1, 'studytime': 1, 'address_int': 0
     })
     assert response.status_code == 200
-    assert response.get_data() == { 'age': 16, 'absences': 3, 'health': 95, 'failures': 0, 'Dalc': 0,
-        'internet_int': 1, 'higher_int': 1, 'paid_int': 1, 'studytime': 1, 'address_int': 0 }
+    assert response.get_data() == b'{"Dalc":0,"absences":3,"address_int":0,"age":16,"failures":0,"health":95,"higher_int":1,"internet_int":1,"paid_int":1,"studytime":1}\n'
+
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.get_data() == b'{"Dalc":0,"absences":3,"address_int":0,"age":16,"failures":0,"health":95,"higher_int":1,"internet_int":1,"paid_int":1,"studytime":1}\n'
     
     
 def test_get_predict_route():
@@ -95,7 +99,7 @@ def test_get_predict_route():
     response = client.get('/predict')
 
     assert response.status_code == 200
-    assert response.get_data() == 1 or response.get_data() == 0
+    assert response.get_data() == b'1\n' or response.get_data() == b'0\n'
     
 def test_undefined_route():
     app = Flask(__name__)
