@@ -14,7 +14,7 @@ def configure_routes(app):
     @app.route('/')
     def hello():
         return "try the predict route it is great!"
-
+    
     attributes = [
         { 'health': 0, 'absences': 0, 'age': 0, 'failures': 0, 'Dalc': 0, 'internet_int': 0, 
           'higher_int': 0, 'paid_int': 0, 'studytime': 0, 'address_int': 0 }
