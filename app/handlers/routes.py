@@ -52,16 +52,16 @@ def configure_routes(app):
     def predict():
         #use entries from the query string here but could also use json
         query_df = pd.DataFrame({
-            'health': pd.Series(request.args.get('health')),
-            'absences': pd.Series(request.args.get('absences')),
-            'age': pd.Series(request.args.get('age')),
-            'failures': pd.Series(request.args.get('failures')),
-            'Dalc': pd.Series(request.args.get('Dalc')),
-            'internet_int': pd.Series(request.args.get('internet_int')),
-            'higher_int': pd.Series(request.args.get('higher_int')),
-            'paid_int': pd.Series(request.args.get('paid_int')),
-            'studytime': pd.Series(request.args.get('studytime')),
-            'address_int': pd.Series(request.args.get('address_int'))
+            'health': pd.Series(attributes[-1]['health']),
+            'absences': pd.Series(attributes[-1]['absences']),
+            'age': pd.Series(attributes[-1]['age']),
+            'failures': pd.Series(attributes[-1]['failures']),
+            'Dalc': pd.Series(attributes[-1]['Dalc']),
+            'internet_int': pd.Series(attributes[-1]['internet_int']),
+            'higher_int': pd.Series(attributes[-1]['higher_int']),
+            'paid_int': pd.Series(attributes[-1]['paid_int']),
+            'studytime': pd.Series(attributes[-1]['studytime']),
+            'address_int': pd.Series(attributes[-1]['address_int'])
         })
         query = pd.get_dummies(query_df)
         prediction = clf.predict(query)
