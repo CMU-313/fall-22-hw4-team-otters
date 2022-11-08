@@ -18,7 +18,7 @@ def configure_routes(app):
     attributes = [
         { 'age': 0, 'absences': 0, 'health': 0 }
     ]
-
+    
     @app.route('/applicants', methods=['GET', 'POST'])
     def applicants():
         if request.method == "GET":
@@ -36,7 +36,7 @@ def configure_routes(app):
                 return "Invalid input: dictionary should contain 'age', 'absences', and 'health' attributes", 400
 
 
-    @app.route('/predict', methods=['GET'])
+    @app.route('/predict', methods=['GET']
     def predict():
         query_df = pd.DataFrame({
             'age': pd.Series(attributes[-1]['age']),
@@ -45,4 +45,4 @@ def configure_routes(app):
         })
         query = pd.get_dummies(query_df)
         prediction = clf.predict(query)
-        return jsonify(np.asscalar(prediction))
+        return jsonify(np.ndarray.item(prediction))
