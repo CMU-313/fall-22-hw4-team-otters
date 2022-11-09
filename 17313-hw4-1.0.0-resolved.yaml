@@ -12,41 +12,37 @@ paths:
     get:
       tags:
       - Model
-      description: uses ML model to predict scores and returns accuracy of predictions
-      operationId: predictedScores
+      description: uses ML model to predict if an applicant will be admitted based on certain attributes
+      operationId: prediction
       responses:
         "200":
-          description: Accuracy of scores predicted (1 if correct and 0 if incorrect)
+          description: Returns prediction of if student will  be admitted (0 for no, 1 for yes)
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Prediction'
-        "400":
-          description: Bad request due to client errors. No attributes currently selected to predict applicant scores.
   /applicants:
     get:
       tags:
       - Applicant
-      description: gets attributes used to train ML model
-      operationId: getAttributes
+      description: gets attribute values for specific applicant to be evaluated by ML model; if no applicant given yet, default attribute values of 0 are returned
+      operationId: getApplicant
       responses:
         "200":
-          description: Selected attributes
+          description: Values of applicant's attributes (or all 0 if no POST request made)
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Applicants'
-        "400":
-          description: Bad request due to client error. No attributes currently selected to predict applicant scores.
     post:
       tags:
       - Applicant
-      description: change attributes used to train ML model
-      operationId: selectAttributes
+      description: add in an applicant to be evaluated by ML model
+      operationId: postApplicant
       parameters:
-      - name: attributes
+      - name: applicant
         in: query
-        description: selected attributes to train ML model
+        description: applicant's values for attributes used in ML model
         required: false
         style: form
         explode: true
@@ -54,29 +50,31 @@ paths:
           $ref: '#/components/schemas/Applicants'
       responses:
         "200":
-          description: Successfully selected attributes to train for ML model
+          description: Successfully input values for attributes used in ML model
           content:
             application/json:
               schema:
-                type: string
-                example: ok
+                $ref: '#/components/schemas/Applicants'
         "400":
-          description: Bad request due to client error. Check the syntax of parameters and http request.
+          description: Bad request due to client error. Not all attributes are found.
+        "500":
+          description: Bad request due to client error. Check the syntax of parameters and confirm that input is of type dictionary.
 components:
   schemas:
     Prediction:
       type: object
       properties:
-        accuracyScore:
+        admitted:
           type: integer
-          format: accuracyScore
+          format: admitted
           example: 0
     Applicants:
       type: object
       properties:
         attributes:
-          type: array
-          items:
-            type: string
-            format: attribute
-            example: '["age","absences","health"]'
+          type: integer
+          properties:
+            code:
+              type: integer
+            text:
+              type: string
